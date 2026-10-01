@@ -30,8 +30,9 @@ erDiagram
 
     Task {
         int id PK
+        int squad_id FK
         string path
-        string status
+        json status
     }
 
     Squad |o--o{ Mob : "in"

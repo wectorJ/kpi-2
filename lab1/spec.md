@@ -1,11 +1,11 @@
 
 # Сутності та атрибути
 
-- Operator: id (PK), is_player, fraction_color
-- Squad: id (PK), operator_id (FK), name
-- Mob: id (PK), squad_id (FK), operator_id (FK), health, damage, pos_x, pos_y
-- Target: id (PK), is_destroyed, pos_x, pos_y
-- Task: id (PK), path, status
+- Operator: int id (PK), bool is_player, string fraction_color
+- Squad: int id (PK), int operator_id (FK), string name
+- Mob: int id (PK), int squad_id (FK), int operator_id (FK), int health, int damage, float pos_x, float pos_y
+- Target: int id (PK), bool is_destroyed, float pos_x, float pos_y
+- Task: int id (PK), string path, status (JSON)
 
 # Зв'язки
 
