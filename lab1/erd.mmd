@@ -1,0 +1,43 @@
+erDiagram
+    Mob {
+        int id PK
+        int squad_id FK
+        int operator_id FK
+        int health
+        int damage
+        float pos_x
+        float pos_y
+    }
+
+    Squad {
+        int id PK
+        int operator_id FK
+        string name
+    }
+
+    Target {
+        int id PK
+        bool is_destroyed
+        float pos_x
+        float pos_y
+    }
+
+    Operator {
+        int id PK
+        bool is_player
+        string fraction_color
+    }
+
+    Task {
+        int id PK
+        string path
+        string status
+    }
+
+    Squad |o--o{ Mob : "in"
+    Squad }o--o{ Target : "has"
+    Operator }o--o{ Target : "Find"
+    Operator ||--o{ Squad : "Create"
+    Squad ||--o{ Task : "Create"
+    Mob }o--o| Task : "has"
+    Mob }o--|| Operator : "is subject to"
