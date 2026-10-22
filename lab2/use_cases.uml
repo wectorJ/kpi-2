@@ -1,0 +1,35 @@
+@startuml
+left to right direction
+skinparam actorStyle awesome
+
+actor Operator
+actor Player
+actor AIOpponent
+actor System
+
+' --- Operator ---
+Operator --> (Створити Squad)
+Operator --> (Призначити Target\nкоманді)
+
+' --- Player ---
+Player --> (Додати моба в існуючу команду)
+Player --> (Розформувати команду)
+Player --> (Вилучити моба з команди)
+Player --> (Перехопити керування мобом)
+
+' --- AIOpponent ---
+AIOpponent --> (Визначити порядок Target у команді)
+
+' --- System ---
+System --> (перетворити Target у Tasks\nдля мобів команди)
+System --> (Виконувати активний Task\nдля моба)
+System --> (Керувати мобом, якщо керування\nне перехоплене Player)
+
+(перетворити Target у Tasks\nдля мобів команди) ..> (Призначити Target\nкоманді) : «include»
+(Вилучити моба з команди) ..> (Перехопити керування мобом) : «include»
+(Виконувати активний Task\nдля моба) ..> (Визначити порядок Target у команді) : «include»
+
+Operator --|> Player
+Operator --|> AIOpponent
+
+@enduml
