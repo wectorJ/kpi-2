@@ -1,0 +1,4 @@
+# The render metadata hashes the exact UML bytes; keep them stable across checkouts.
+*.uml text eol=lf
+*.py text eol=lf
+*.json text eol=lf

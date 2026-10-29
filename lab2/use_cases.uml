@@ -1,35 +1,29 @@
 @startuml
 left to right direction
 skinparam actorStyle awesome
+skinparam shadowing false
+skinparam defaultFontName SansSerif
 
-actor Operator
+actor "Operator\n(абстрактний)" as Operator
 actor Player
 actor AIOpponent
-actor System
+Player --|> Operator
+AIOpponent --|> Operator
 
-' --- Operator ---
-Operator --> (Створити Squad)
-Operator --> (Призначити Target\nкоманді)
+usecase "UC-01\nСтворити Squad" as UC01
+usecase "UC-02\nПризначити Squad цілі" as UC02
+usecase "UC-03\nДодати Mob до наявного Squad" as UC03
+usecase "UC-04\nРозформувати Squad" as UC04
+usecase "UC-05\nВилучити Mob зі Squad" as UC05
+usecase "UC-06\nПерехопити безпосереднє керування Mob" as UC06
 
-' --- Player ---
-Player --> (Додати моба в існуючу команду/перенести з існуючої команди)
-Player --> (Розформувати команду)
-Player --> (Вилучити моба з команди)
-Player --> (Перехопити керування мобом)
+UC06 ..> UC05 : <<include>>
 
-' --- AIOpponent ---
-AIOpponent --> (Визначити порядок Target у команді)
-
-' --- System ---
-System --> (перетворити Target у Tasks\nдля мобів команди)
-System --> (Виконувати активний Task\nдля моба)
-System --> (Керувати мобом, якщо керування\nне перехоплене Player)
-
-(перетворити Target у Tasks\nдля мобів команди) ..> (Призначити Target\nкоманді) : «include»
-(Вилучити моба з команди) ..> (Перехопити керування мобом) : «include»
-(Виконувати активний Task\nдля моба) ..> (Визначити порядок Target у команді) : «include»
-
-Operator --|> Player
-Operator --|> AIOpponent
+Operator -- UC01
+Operator -- UC02
+Player -- UC03
+Player -- UC04
+Player -- UC05
+Player -- UC06
 
 @enduml
