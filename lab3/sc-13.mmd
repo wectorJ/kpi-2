@@ -1,0 +1,16 @@
+sequenceDiagram
+    actor P as Player
+    participant UI as Ігровий інтерфейс
+    participant S as Сервіс керування Squad
+    participant Squad as Squad
+
+    P->>+UI: Розформувати Squad S2
+    UI->>+S: disbandSquad(P1, S2)
+    S->>+Squad: findSquadById(S2)
+    Squad-->>-S: Squad S2 з operatorId опонента
+    opt Squad знайдено й operatorId відрізняється від playerId (SC-13)
+        S-->>UI: ACCESS_DENIED
+        UI-->>P: Помилка «Цей Squad належить іншому Operator»
+    end
+    deactivate S
+    deactivate UI

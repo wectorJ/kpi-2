@@ -5,12 +5,14 @@ sequenceDiagram
     participant Squad as Squad
     participant Mob as Mob
 
-    P->>+UI: Розформувати Squad S1
-    UI->>+S: disbandSquad(P1, S1)
-    S->>+Squad: findOwnedSquad(P1, S1)
-    Squad-->>-S: Squad S1 або відсутній
-    alt Squad знайдено (SC-10, SC-11)
-        S->>+Mob: listSquadMembers(S1)
+    P->>+UI: Розформувати Squad
+    UI->>+S: disbandSquad(playerId, squadId)
+    S->>+Squad: findSquadById(squadId)
+    Squad-->>-S: Squad з operatorId або відсутній
+    alt Squad відсутній (SC-12)
+        S-->>UI: SQUAD_NOT_FOUND
+    else Squad належить Player (SC-10, SC-11)
+        S->>+Mob: listSquadMembers(squadId)
         Mob-->>-S: Склад Squad
         opt Склад містить Mob (SC-10)
             loop Для кожного Mob у складі Squad
@@ -20,15 +22,13 @@ sequenceDiagram
                 Mob-->>-S: Членство знято, власника збережено
             end
         end
-        S->>+Squad: deleteSquad(S1)
+        S->>+Squad: deleteSquad(squadId)
         Squad-->>-S: Squad видалено
         S-->>UI: SUCCESS
-    else Squad відсутній (SC-12)
-        S-->>UI: SQUAD_NOT_FOUND
     end
     deactivate S
     alt Результат SUCCESS (SC-10, SC-11)
-        UI->>UI: removeSquadFromList(S1)
+        UI->>UI: removeSquadFromList(squadId)
         UI-->>P: Оновлений список Squad
     else Результат SQUAD_NOT_FOUND (SC-12)
         UI-->>P: Помилка «Squad не знайдено»
